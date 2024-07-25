@@ -1,4 +1,3 @@
-Claro, vou adicionar os comandos para instalação do Vue CLI e para inicializar o projeto.
 
 ---
 

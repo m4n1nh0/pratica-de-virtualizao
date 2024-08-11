@@ -1,4 +1,4 @@
-version: '3.7'
+version: '4.1'
 
 services:
   web:
@@ -7,26 +7,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:80"
+    depends_on:
+      - api      
     networks:
       my-network:
         ipv4_address: 172.16.238.10
-
-  api:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    environment:
-      MYSQL_HOST: 172.16.238.20
-      MYSQL_USER: exampleuser
-      MYSQL_PASSWORD: examplepass
-      MYSQL_DATABASE: exampledb
-    depends_on:
-      - db
-    networks:
-      my-network:
-        ipv4_address: 172.16.238.30
 
   db:
     image: mysql:5.7
@@ -38,10 +23,28 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     networks:
       my-network:
         ipv4_address: 172.16.238.20
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      MYSQL_HOST: db
+      MYSQL_PORT: 3306
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_DATABASE: exampledb
+    depends_on:
+      - db
+    networks:
+      my-network:
+        ipv4_address: 172.16.238.30
 
 networks:
   my-network:

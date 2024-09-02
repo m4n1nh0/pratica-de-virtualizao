@@ -128,3 +128,8 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+/.idea/.gitignore
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/pratica-de-virtualizao.iml
+/.idea/vcs.xml
